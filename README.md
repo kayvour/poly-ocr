@@ -6,7 +6,6 @@ The current implementation compares:
 
 - Tesseract OCR
 - EasyOCR
-- PaddleOCR
 
 The goal is to evaluate OCR systems using standard metrics instead of just extracting text.
 
@@ -116,5 +115,6 @@ Each image should have a corresponding `.txt` file with the same name containing
 ---
 
 Built as a project exploring OCR evaluation and benchmarking pipelines.
+
 
 
