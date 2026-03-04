@@ -2,15 +2,19 @@
     {
         "file": "test.png",
         "engine": "tesseract",
+        "predicted_text": "hello",
+        "ground_truth": "hello",
         "cer": 0.0,
         "wer": 0.0,
-        "time": 1.1735687255859375
+        "time": 0.20821833610534668
     },
     {
         "file": "test.png",
         "engine": "easyocr",
+        "predicted_text": "hello",
+        "ground_truth": "hello",
         "cer": 0.0,
         "wer": 0.0,
-        "time": 0.6378805637359619
+        "time": 0.5294218063354492
     }
 ]

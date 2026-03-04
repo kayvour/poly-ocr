@@ -1,0 +1,8 @@
+pytesseract
+easyocr
+opencv-python
+numpy
+pandas
+python-Levenshtein
+matplotlib
+Pillow

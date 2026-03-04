@@ -1,3 +1,3 @@
-file,engine,cer,wer,time
-test.png,tesseract,0.0,0.0,1.1735687255859375
-test.png,easyocr,0.0,0.0,0.6378805637359619
+file,engine,predicted_text,ground_truth,cer,wer,time
+test.png,tesseract,hello,hello,0.0,0.0,0.20821833610534668
+test.png,easyocr,hello,hello,0.0,0.0,0.5294218063354492
