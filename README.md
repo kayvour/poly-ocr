@@ -6,6 +6,7 @@ The current implementation compares:
 
 - Tesseract OCR
 - EasyOCR
+- PaddleOCR
 
 The goal is to evaluate OCR systems using standard metrics instead of just extracting text.
 
@@ -58,17 +59,6 @@ WER (Word Error Rate)
 Inference time per engine  
 
 Lower error means better accuracy.
-
----
-
-## Current OCR Engines
-
-The framework currently benchmarks:
-
-- Tesseract OCR
-- EasyOCR
-
-Additional open source OCR models can be integrated easily using the engine abstraction layer.
 
 ---
 
@@ -126,4 +116,5 @@ Each image should have a corresponding `.txt` file with the same name containing
 ---
 
 Built as a project exploring OCR evaluation and benchmarking pipelines.
+
 
