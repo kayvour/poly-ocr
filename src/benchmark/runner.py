@@ -4,7 +4,6 @@ import pandas as pd
 import psutil
 from src.engines.tesseract_engine import TesseractEngine
 from src.engines.easyocr_engine import EasyOCREngine
-from src.engines.paddleocr_engine import PaddleOCREngine
 from src.engines.trocr_engine import TrOCREngine
 from src.engines.donut_engine import DonutEngine
 from src.engines.doctr_engine import DocTREngine
@@ -72,35 +71,39 @@ class BenchmarkRunner:
 
             for engine in self.engines:
                 for c_name, c_path in corrupted_images.items():
-                
-                    mem_before = process.memory_info().rss / 1024 / 1024
-                    
-                    predicted, _, inference_time = engine.predict(
-                        c_path,
-                        self.lang
-                    )
-                    
-                    mem_after = process.memory_info().rss / 1024 / 1024
-                    memory_usage = max(0, mem_after - mem_before)
+                    try:
+                        mem_before = process.memory_info().rss / 1024 / 1024
 
-                    metrics = evaluate(
-                        predicted,
-                        ground_truth,
-                        inference_time,
-                        memory_usage
-                    )
+                        predicted, _, inference_time = engine.predict(
+                            c_path,
+                            self.lang
+                        )
 
-                    result = {
-                        "file": file,
-                        "corruption": c_name,
-                        "engine": engine.name,
-                        "predicted_text": predicted,
-                        "ground_truth": ground_truth,
-                        **metrics
-                    }
+                        mem_after = process.memory_info().rss / 1024 / 1024
+                        memory_usage = max(0, mem_after - mem_before)
 
-                    print(f"[{engine.name} | {c_name}] {file} - CER: {metrics['cer']:.4f}")
-                    results.append(result)
+                        metrics = evaluate(
+                            predicted,
+                            ground_truth,
+                            inference_time,
+                            memory_usage
+                        )
+
+                        result = {
+                            "file": file,
+                            "corruption": c_name,
+                            "engine": engine.name,
+                            "predicted_text": predicted,
+                            "ground_truth": ground_truth,
+                            **metrics
+                        }
+
+                        print(f"[{engine.name} | {c_name}] {file} - CER: {metrics['cer']:.4f}")
+                        results.append(result)
+
+                    except Exception as e:
+                        print(f"[{engine.name} | {c_name}] FAILED on {file}: {e}")
+                        continue
 
         self._save_results(results)
         return results

@@ -24,8 +24,8 @@ def main():
     parser.add_argument(
         "--engines",
         type=str,
-        default="tesseract,easyocr",
-        help="Comma-separated list of OCR engines to benchmark"
+        default="tesseract,easyocr,trocr,donut,doctr,nougat",
+        help="Comma-separated list of OCR engines: tesseract, easyocr, trocr, donut, doctr, nougat"
     )
 
     parser.add_argument(

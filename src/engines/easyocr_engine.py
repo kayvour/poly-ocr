@@ -16,7 +16,7 @@ class EasyOCREngine(BaseOCREngine):
     def predict(self, image_path: str, lang: str = "eng"):
         if self.reader is None:
             import easyocr
-            self.reader = easyocr.Reader(self.languages)
+            self.reader = easyocr.Reader(self.languages, gpu=False)
 
         start = time.time()
 

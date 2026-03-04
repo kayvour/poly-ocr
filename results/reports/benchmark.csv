@@ -1,7 +1,6 @@
 file,corruption,engine,predicted_text,ground_truth,cer,wer,exact_match,levenshtein,token_accuracy,bleu,rouge,time,memory_mb
-test_img.png,clean,easyocr,Hello World,Hello World,0.0,0.0,1.0,0,1.0,0.316227766016838,1.0,0.35514235496520996,220.27734375
-test_img.png,gaussian_noise,easyocr,Hello World,Hello World,0.0,0.0,1.0,0,1.0,0.316227766016838,1.0,0.3041646480560303,2.19140625
-test_img.png,blur,easyocr,Hello Word,Hello World,0.09090909090909091,0.5,0.0,1,0.5,0.1495348781221221,0.5,0.28664588928222656,0.16796875
-test_img.png,rotation,easyocr,Hello World,Hello World,0.0,0.0,1.0,0,1.0,0.316227766016838,1.0,0.2695140838623047,8.18359375
-test_img.png,compression,easyocr,Hello World,Hello World,0.0,0.0,1.0,0,1.0,0.316227766016838,1.0,0.25559401512145996,12.40625
-test_img.png,low_resolution,easyocr,hy7,Hello World,1.0,5.5,0.0,11,0.0,0.0,0.0,0.3460214138031006,0.0
+test_img.png,clean,easyocr,Hello World,Hello World,0.0,0.0,1.0,0,1.0,0.316227766016838,1.0,0.5947186946868896,234.890625
+test_img.png,clean,trocr,HELLO WORLD,Hello World,0.7272727272727273,4.0,0.0,8,0.0,0.0,1.0,2.6912248134613037,1302.21484375
+test_img.png,clean,donut,,Hello World,1.0,5.5,0.0,11,0.0,0.0,0.0,32.607120990753174,4309.328125
+test_img.png,clean,doctr,"Hello 
+World",Hello World,0.09090909090909091,0.0,0.0,1,1.0,0.316227766016838,1.0,2.4214298725128174,0.0
