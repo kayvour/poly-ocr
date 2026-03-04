@@ -6,7 +6,7 @@ class BaseOCREngine(ABC):
         self.name = name
 
     @abstractmethod
-    def recognize(self, image_path: str, lang: str):
+    def predict(self, image_path: str, lang: str = "eng"):
         """
         Returns:
             text (str)

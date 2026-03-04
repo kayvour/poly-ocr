@@ -15,7 +15,7 @@ class TesseractEngine(BaseOCREngine):
 
         # If installed elsewhere, change path above
 
-    def recognize(self, image_path: str, lang: str):
+    def predict(self, image_path: str, lang: str = "eng"):
         start = time.time()
 
         img = Image.open(image_path)

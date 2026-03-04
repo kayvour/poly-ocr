@@ -21,11 +21,26 @@ def main():
         help="Path to dataset folder"
     )
 
+    parser.add_argument(
+        "--engines",
+        type=str,
+        default="tesseract,easyocr",
+        help="Comma-separated list of OCR engines to benchmark"
+    )
+
+    parser.add_argument(
+        "--corrupt",
+        action="store_true",
+        help="Enable robustness evaluation on corrupted images"
+    )
+
     args = parser.parse_args()
 
     runner = BenchmarkRunner(
         dataset_path=args.dataset,
-        lang=args.lang
+        lang=args.lang,
+        engine_names=args.engines.split(","),
+        enable_corruptions=args.corrupt
     )
 
     runner.run()

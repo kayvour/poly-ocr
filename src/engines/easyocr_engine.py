@@ -9,10 +9,15 @@ class EasyOCREngine(BaseOCREngine):
 
         if languages is None:
             languages = ['en']
+            
+        self.languages = languages
+        self.reader = None
 
-        self.reader = easyocr.Reader(languages)
+    def predict(self, image_path: str, lang: str = "eng"):
+        if self.reader is None:
+            import easyocr
+            self.reader = easyocr.Reader(self.languages)
 
-    def recognize(self, image_path: str, lang: str):
         start = time.time()
 
         results = self.reader.readtext(image_path)

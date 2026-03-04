@@ -6,3 +6,12 @@ pandas
 python-Levenshtein
 matplotlib
 Pillow
+paddleocr
+transformers
+python-doctr[torch]
+torch
+torchvision
+nltk
+rouge-score
+psutil
+albumentations
