@@ -30,7 +30,6 @@ class BenchmarkRunner:
         engine_map = {
             "tesseract": lambda: TesseractEngine(),
             "easyocr": lambda: EasyOCREngine([easyocr_lang]),
-            "paddleocr": lambda: PaddleOCREngine(self.lang),
             "trocr": lambda: TrOCREngine(),
             "donut": lambda: DonutEngine(),
             "doctr": lambda: DocTREngine(),
