@@ -1,13 +1,20 @@
 # PolyOCR-Bench
 
-PolyOCR-Bench is a multilingual OCR benchmarking framework for comparing different OCR engines across languages and scripts.
+PolyOCR-Bench is a multilingual OCR benchmarking framework for comparing different OCR engines—both traditional and transformer-based—across languages, scripts, and document conditions.
 
-The current implementation compares:
+The framework supports evaluating multiple models out-of-the-box and generates unified CSV/JSON reports alongside performance and accuracy comparison plots.
 
+## Supported Engines
+
+**Traditional OCR:**
 - Tesseract OCR
 - EasyOCR
 
-The goal is to evaluate OCR systems using standard metrics instead of just extracting text.
+**Deep Learning / Transformer OCR:**
+- TrOCR (Microsoft)
+- Donut (Naver CLOVA)
+- DocTR (Mindee)
+- Nougat (Meta)
 
 ---
 
@@ -15,13 +22,13 @@ The goal is to evaluate OCR systems using standard metrics instead of just extra
 
 Given a dataset of images and ground truth text, the framework:
 
-- Runs multiple OCR engines
-- Computes Character Error Rate (CER)
-- Computes Word Error Rate (WER)
-- Measures inference time
-- Saves predicted text and ground truth
-- Exports results as CSV and JSON
-- Generates comparison plots
+- Runs multiple selected OCR engines dynamically (lazy-loading).
+- Computes comprehensive **Text Accuracy** metrics (CER, WER, Exact Match, Levenshtein Distance, Token Accuracy).
+- Computes **Semantic Similarity** metrics (BLEU, ROUGE).
+- Evaluates **Performance** (Inference Time per image, Memory RSS usage).
+- Evaluates **Robustness** under synthetic image corruptions (Gaussian noise, Blur, Rotation, Compression, Low resolution).
+- Exports results as comprehensive CSV and JSON reports.
+- Generates automatic comparison plots (e.g., Accuracy vs. Speed, Robustness degradation curves, Metric comparisons).
 
 ---
 
@@ -29,92 +36,63 @@ Given a dataset of images and ground truth text, the framework:
 
 Install dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
-Tesseract must be installed separately and available in your system PATH.
+*Note: Tesseract must be installed separately and available in your system PATH.*
 
 ---
 
 ## Usage
 
-Run a benchmark:
+Run a standard benchmark with default engines (all engines):
 
-python cli.py --lang eng --dataset datasets/eng
+```bash
+python cli.py --dataset datasets/eng --lang eng
+```
+
+Specify exactly which engines to evaluate:
+
+```bash
+python cli.py --dataset tmp_dataset --engines easyocr,trocr,doctr
+```
+
+Enable **Robustness Evaluation** (tests engines under corrupted conditions):
+
+```bash
+python cli.py --dataset tmp_dataset --engines easyocr --corrupt
+```
+
+### Outputs
 
 Results are saved in:
+`results/reports/` (Contains `benchmark.csv` and `benchmark.json`)
 
-results/reports/
-
-Plots are saved in:
-
-results/plots/
-
----
-
-## Metrics
-
-CER (Character Error Rate)  
-WER (Word Error Rate)  
-Inference time per engine  
-
-Lower error means better accuracy.
+Visualization plots are saved in:
+`results/plots/` (Contains metric comparions, Speed vs Accuracy charts, and Robustness degradation graphs).
 
 ---
 
 ## Datasets
 
-This project is designed to work with multilingual OCR datasets. Some publicly available datasets you can use include:
+This project is designed to work with multilingual OCR datasets. Dataset folders should follow this structure:
 
-**English**
-- ICDAR 2013 / ICDAR 2015 Scene Text datasets  
-- IIIT5K Word Dataset
-
-**Chinese**
-- RCTW-17 (Reading Chinese Text in the Wild)
-
-**Arabic**
-- ALIF Arabic Scene Text Dataset
-
-**Hindi / Devanagari**
-- IIIT-HW Devnagari Handwritten Dataset
-
-**Multilingual**
-- MLT (ICDAR Multi-Lingual Text Dataset)
-
-These datasets contain labeled text images that can be used as input for benchmarking OCR engines.
-
-Dataset folders should follow this structure:
-
+```
 datasets/<lang>/
     images/
+        img1.png
     ground_truth/
+        img1.txt
+```
 
-Each image should have a corresponding `.txt` file with the same name containing the ground truth text.
+Each image must have a corresponding `.txt` file with the exact same name containing the ground truth text.
 
 ---
 
 ## Project Focus
 
 - Modular OCR engine interface
-- Multilingual benchmarking structure
-- Evaluation pipeline for OCR systems
-- Automated result reporting
-
----
-
-## Future Improvements
-
-- Engine selection through CLI
-- Automatic language mapping
-- Summary statistics per engine
-- Visualization dashboard
-- Docker support
-- Integration of additional open source OCR models
-- OCR to translation pipeline for multilingual document understanding
-
----
-
-Built as a project exploring OCR evaluation and benchmarking pipelines.
-
-
-
+- Integration of state-of-the-art transformer models (TrOCR, Donut, Nougat, DocTR) alongside traditional systems
+- Deep evaluation pipeline covering exact extraction, semantics, time, and memory constraints
+- Automated result reporting and graphical visualization
