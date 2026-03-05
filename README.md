@@ -76,17 +76,33 @@ Visualization plots are saved in:
 
 ## Datasets
 
-This project is designed to work with multilingual OCR datasets. Dataset folders should follow this structure:
+This project is designed to work with multilingual OCR datasets. Some publicly available datasets you can use include:
 
-```
+**English**
+- ICDAR 2013 / ICDAR 2015 Scene Text datasets  
+- IIIT5K Word Dataset
+
+**Chinese**
+- RCTW-17 (Reading Chinese Text in the Wild)
+
+**Arabic**
+- ALIF Arabic Scene Text Dataset
+
+**Hindi / Devanagari**
+- IIIT-HW Devnagari Handwritten Dataset
+
+**Multilingual**
+- MLT (ICDAR Multi-Lingual Text Dataset)
+
+These datasets contain labeled text images that can be used as input for benchmarking OCR engines.
+
+Dataset folders should follow this structure:
+
 datasets/<lang>/
     images/
-        img1.png
     ground_truth/
-        img1.txt
-```
 
-Each image must have a corresponding `.txt` file with the exact same name containing the ground truth text.
+Each image should have a corresponding `.txt` file with the same name containing the ground truth text.
 
 ---
 
@@ -96,3 +112,4 @@ Each image must have a corresponding `.txt` file with the exact same name contai
 - Integration of state-of-the-art transformer models (TrOCR, Donut, Nougat, DocTR) alongside traditional systems
 - Deep evaluation pipeline covering exact extraction, semantics, time, and memory constraints
 - Automated result reporting and graphical visualization
+
