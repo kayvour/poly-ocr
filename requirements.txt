@@ -1,25 +1,16 @@
-# ── Core utilities ────────────────────────────────────────────
 numpy
 pandas
 Pillow
 opencv-python
 matplotlib
 psutil
-
-# ── Traditional OCR engines ───────────────────────────────────
-pytesseract          # Tesseract wrapper
-easyocr              # EasyOCR
-
-# ── Deep Learning OCR engines ─────────────────────────────────
+pytesseract
+easyocr
 torch
 torchvision
-transformers         # TrOCR, Donut, Nougat (HuggingFace)
-python-doctr[torch]  # DocTR
-
-# ── Evaluation metrics ────────────────────────────────────────
-python-Levenshtein   # CER, WER, Levenshtein distance
-nltk                 # BLEU score
-rouge-score          # ROUGE score
-
-# ── Robustness / image corruptions ───────────────────────────
+transformers
+python-doctr[torch]
+python-Levenshtein
+nltk
+rouge-score
 albumentations
