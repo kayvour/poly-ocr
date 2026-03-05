@@ -1,6 +1,6 @@
 # PolyOCR-Bench
 
-PolyOCR-Bench is a multilingual OCR benchmarking framework for comparing different OCR engines—both traditional and transformer-based—across languages, scripts, and document conditions.
+PolyOCR-Bench is a multilingual OCR benchmarking framework for comparing different OCR engines, both traditional and transformer-based across languages, scripts, and document conditions.
 
 The framework supports evaluating multiple models out-of-the-box and generates unified CSV/JSON reports alongside performance and accuracy comparison plots.
 
@@ -112,4 +112,3 @@ Each image should have a corresponding `.txt` file with the same name containing
 - Integration of state-of-the-art transformer models (TrOCR, Donut, Nougat, DocTR) alongside traditional systems
 - Deep evaluation pipeline covering exact extraction, semantics, time, and memory constraints
 - Automated result reporting and graphical visualization
-
