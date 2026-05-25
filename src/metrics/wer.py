@@ -1,15 +1,7 @@
-import Levenshtein
-
-
-def wer(predicted: str, ground_truth: str) -> float:
+def wer(predicted, ground_truth):
     pred_words = predicted.split()
     gt_words = ground_truth.split()
-
-    if not gt_words:
-        return 0.0
-
-    distance = Levenshtein.distance(" ".join(pred_words),
-                                    " ".join(gt_words))
-
+    if not gt_words: return 0.0
+    distance = Levenshtein.distance(pred_words, gt_words)
     return distance / len(gt_words)
     

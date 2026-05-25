@@ -1,16 +1,19 @@
 import os
 import json
+import tracemalloc
 import pandas as pd
-import psutil
 from src.engines.tesseract_engine import TesseractEngine
 from src.engines.easyocr_engine import EasyOCREngine
 from src.engines.trocr_engine import TrOCREngine
 from src.engines.donut_engine import DonutEngine
 from src.engines.doctr_engine import DocTREngine
 from src.engines.nougat_engine import NougatEngine
+from src.engines.paddleocr_engine import PaddleOCREngine
 from src.dataset.corruptions import apply_corruptions
 from src.benchmark.evaluator import evaluate
 from src.utils.plotter import generate_plots
+from src.config.settings import REPORTS_DIR, REPORT_CSV, REPORT_JSON
+from src.config.languages import get_lang
 
 
 class BenchmarkRunner:
@@ -20,19 +23,20 @@ class BenchmarkRunner:
         self.enable_corruptions = enable_corruptions
 
         if engine_names is None:
-            engine_names = ["tesseract", "easyocr"]
+            from src.config.settings import DEFAULT_ENGINES
+            engine_names = DEFAULT_ENGINES
 
         self.engines = self._init_engines(engine_names)
 
     def _init_engines(self, names):
-        easyocr_lang = "en" if self.lang == "eng" else self.lang
         engine_map = {
-            "tesseract": lambda: TesseractEngine(),
-            "easyocr": lambda: EasyOCREngine([easyocr_lang]),
-            "trocr": lambda: TrOCREngine(),
-            "donut": lambda: DonutEngine(),
-            "doctr": lambda: DocTREngine(),
-            "nougat": lambda: NougatEngine(),
+            "tesseract":  lambda: TesseractEngine(),
+            "easyocr":    lambda: EasyOCREngine([get_lang(self.lang, "easyocr")]),
+            "trocr":      lambda: TrOCREngine(),
+            "donut":      lambda: DonutEngine(),
+            "doctr":      lambda: DocTREngine(),
+            "nougat":     lambda: NougatEngine(),
+            "paddleocr":  lambda: PaddleOCREngine(lang=get_lang(self.lang, "paddleocr")),
         }
         return [engine_map[name.strip()]() for name in names if name.strip() in engine_map]
 
@@ -46,17 +50,12 @@ class BenchmarkRunner:
 
         results = []
 
-        process = psutil.Process(os.getpid())
-        
         for file in os.listdir(images_path):
             if not file.lower().endswith((".png", ".jpg", ".jpeg")):
                 continue
 
             image_file = os.path.join(images_path, file)
-            gt_file = os.path.join(
-                gt_path,
-                os.path.splitext(file)[0] + ".txt"
-            )
+            gt_file = os.path.join(gt_path, os.path.splitext(file)[0] + ".txt")
 
             if not os.path.exists(gt_file):
                 continue
@@ -72,22 +71,17 @@ class BenchmarkRunner:
             for engine in self.engines:
                 for c_name, c_path in corrupted_images.items():
                     try:
-                        mem_before = process.memory_info().rss / 1024 / 1024
+                        tracemalloc.start()
 
                         predicted, _, inference_time = engine.predict(
-                            c_path,
-                            self.lang
+                            c_path, get_lang(self.lang, engine.name)
                         )
 
-                        mem_after = process.memory_info().rss / 1024 / 1024
-                        memory_usage = max(0, mem_after - mem_before)
+                        _, peak = tracemalloc.get_traced_memory()
+                        tracemalloc.stop()
+                        memory_mb = peak / 1024 / 1024
 
-                        metrics = evaluate(
-                            predicted,
-                            ground_truth,
-                            inference_time,
-                            memory_usage
-                        )
+                        metrics = evaluate(predicted, ground_truth, inference_time, memory_mb)
 
                         result = {
                             "file": file,
@@ -95,7 +89,7 @@ class BenchmarkRunner:
                             "engine": engine.name,
                             "predicted_text": predicted,
                             "ground_truth": ground_truth,
-                            **metrics
+                            **metrics,
                         }
 
                         print(f"[{engine.name} | {c_name}] {file} - CER: {metrics['cer']:.4f}")
@@ -103,7 +97,8 @@ class BenchmarkRunner:
 
                     except Exception as e:
                         print(f"[{engine.name} | {c_name}] FAILED on {file}: {e}")
-                        continue
+                        if tracemalloc.is_tracing():
+                            tracemalloc.stop()
 
         self._save_results(results)
         return results
@@ -113,20 +108,13 @@ class BenchmarkRunner:
             print("No results to save.")
             return
 
-        os.makedirs("results/reports", exist_ok=True)
-
+        os.makedirs(REPORTS_DIR, exist_ok=True)
         df = pd.DataFrame(results)
+        df.to_csv(REPORT_CSV, index=False)
 
-        csv_path = "results/reports/benchmark.csv"
-        json_path = "results/reports/benchmark.json"
-
-        df.to_csv(csv_path, index=False)
-
-        with open(json_path, "w") as f:
+        with open(REPORT_JSON, "w") as f:
             json.dump(results, f, indent=4)
 
-        print("Results saved to results/reports/")
-
-        # ---- Generate plots (NEW) ----
-        generate_plots(csv_path)
+        print(f"Results saved to {REPORTS_DIR}/")
+        generate_plots(REPORT_CSV)
         

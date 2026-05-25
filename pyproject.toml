@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "polyocr-bench"
+version = "0.1.0"
+description = "Multilingual OCR benchmarking framework"
+requires-python = ">=3.9"
+dependencies = [...]  # pull from requirements.txt
+
+[project.scripts]
+polyocr = "cli:main"   # makes `polyocr --dataset ...` work after pip install
