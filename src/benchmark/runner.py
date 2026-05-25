@@ -1,6 +1,7 @@
 import os
+import time
 import json
-import tracemalloc
+import psutil
 import pandas as pd
 from src.engines.tesseract_engine import TesseractEngine
 from src.engines.easyocr_engine import EasyOCREngine
@@ -17,10 +18,11 @@ from src.config.languages import get_lang
 
 
 class BenchmarkRunner:
-    def __init__(self, dataset_path, lang="eng", engine_names=None, enable_corruptions=False):
+    def __init__(self, dataset_path, lang="eng", engine_names=None, enable_corruptions=False, tesseract_path=None):
         self.dataset_path = dataset_path
         self.lang = lang
         self.enable_corruptions = enable_corruptions
+        self.tesseract_path = tesseract_path
 
         if engine_names is None:
             from src.config.settings import DEFAULT_ENGINES
@@ -30,7 +32,7 @@ class BenchmarkRunner:
 
     def _init_engines(self, names):
         engine_map = {
-            "tesseract":  lambda: TesseractEngine(),
+            "tesseract":  lambda: TesseractEngine(self.tesseract_path),
             "easyocr":    lambda: EasyOCREngine([get_lang(self.lang, "easyocr")]),
             "trocr":      lambda: TrOCREngine(),
             "donut":      lambda: DonutEngine(),
@@ -48,6 +50,7 @@ class BenchmarkRunner:
             print("Images folder not found.")
             return
 
+        process = psutil.Process(os.getpid())
         results = []
 
         for file in os.listdir(images_path):
@@ -71,15 +74,12 @@ class BenchmarkRunner:
             for engine in self.engines:
                 for c_name, c_path in corrupted_images.items():
                     try:
-                        tracemalloc.start()
-
+                        mem_before = process.memory_info().rss
                         predicted, _, inference_time = engine.predict(
                             c_path, get_lang(self.lang, engine.name)
                         )
-
-                        _, peak = tracemalloc.get_traced_memory()
-                        tracemalloc.stop()
-                        memory_mb = peak / 1024 / 1024
+                        mem_after = process.memory_info().rss
+                        memory_mb = (mem_after - mem_before) / 1024 / 1024
 
                         metrics = evaluate(predicted, ground_truth, inference_time, memory_mb)
 
@@ -97,8 +97,6 @@ class BenchmarkRunner:
 
                     except Exception as e:
                         print(f"[{engine.name} | {c_name}] FAILED on {file}: {e}")
-                        if tracemalloc.is_tracing():
-                            tracemalloc.stop()
 
         self._save_results(results)
         return results
