@@ -4,7 +4,7 @@ DONUT_MODEL = "naver-clova-ix/donut-base"
 NOUGAT_MODEL = "facebook/nougat-base"
 
 # Default engines to run if none specified
-DEFAULT_ENGINES = ["tesseract", "easyocr", "trocr", "donut", "doctr", "nougat"]
+DEFAULT_ENGINES = ["tesseract", "easyocr", "trocr", "doctr", "nougat"]
 
 # Output paths
 REPORTS_DIR = "results/reports"
