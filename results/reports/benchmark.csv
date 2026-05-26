@@ -1,6 +1,2 @@
 file,corruption,engine,predicted_text,ground_truth,cer,wer,exact_match,levenshtein,token_accuracy,bleu,rouge,time,memory_mb
-test_img.png,clean,easyocr,Hello World,Hello World,0.0,0.0,1.0,0,1.0,0.316227766016838,1.0,0.5947186946868896,234.890625
-test_img.png,clean,trocr,HELLO WORLD,Hello World,0.7272727272727273,4.0,0.0,8,0.0,0.0,1.0,2.6912248134613037,1302.21484375
-test_img.png,clean,donut,,Hello World,1.0,5.5,0.0,11,0.0,0.0,0.0,32.607120990753174,4309.328125
-test_img.png,clean,doctr,"Hello 
-World",Hello World,0.09090909090909091,0.0,0.0,1,1.0,0.316227766016838,1.0,2.4214298725128174,0.0
+test_img.png,clean,easyocr,Hello World,Hello World,0.0,0.0,1.0,0,1.0,0.316227766016838,1.0,0.3867919445037842,220.01953125

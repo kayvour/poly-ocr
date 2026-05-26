@@ -12,55 +12,7 @@
         "token_accuracy": 1.0,
         "bleu": 0.316227766016838,
         "rouge": 1.0,
-        "time": 0.5947186946868896,
-        "memory_mb": 234.890625
-    },
-    {
-        "file": "test_img.png",
-        "corruption": "clean",
-        "engine": "trocr",
-        "predicted_text": "HELLO WORLD",
-        "ground_truth": "Hello World",
-        "cer": 0.7272727272727273,
-        "wer": 4.0,
-        "exact_match": 0.0,
-        "levenshtein": 8,
-        "token_accuracy": 0.0,
-        "bleu": 0,
-        "rouge": 1.0,
-        "time": 2.6912248134613037,
-        "memory_mb": 1302.21484375
-    },
-    {
-        "file": "test_img.png",
-        "corruption": "clean",
-        "engine": "donut",
-        "predicted_text": "",
-        "ground_truth": "Hello World",
-        "cer": 1.0,
-        "wer": 5.5,
-        "exact_match": 0.0,
-        "levenshtein": 11,
-        "token_accuracy": 0.0,
-        "bleu": 0,
-        "rouge": 0,
-        "time": 32.607120990753174,
-        "memory_mb": 4309.328125
-    },
-    {
-        "file": "test_img.png",
-        "corruption": "clean",
-        "engine": "doctr",
-        "predicted_text": "Hello \nWorld",
-        "ground_truth": "Hello World",
-        "cer": 0.09090909090909091,
-        "wer": 0.0,
-        "exact_match": 0.0,
-        "levenshtein": 1,
-        "token_accuracy": 1.0,
-        "bleu": 0.316227766016838,
-        "rouge": 1.0,
-        "time": 2.4214298725128174,
-        "memory_mb": 0
+        "time": 0.3867919445037842,
+        "memory_mb": 220.01953125
     }
 ]
