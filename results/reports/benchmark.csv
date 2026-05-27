@@ -1,2 +1,0 @@
-file,corruption,engine,predicted_text,ground_truth,cer,wer,exact_match,levenshtein,token_accuracy,bleu,rouge,time,memory_mb
-test_img.png,clean,easyocr,Hello World,Hello World,0.0,0.0,1.0,0,1.0,0.316227766016838,1.0,0.3867919445037842,220.01953125
