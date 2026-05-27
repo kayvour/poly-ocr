@@ -6,7 +6,6 @@ import pandas as pd
 from src.engines.tesseract_engine import TesseractEngine
 from src.engines.easyocr_engine import EasyOCREngine
 from src.engines.trocr_engine import TrOCREngine
-from src.engines.donut_engine import DonutEngine
 from src.engines.doctr_engine import DocTREngine
 from src.engines.nougat_engine import NougatEngine
 from src.engines.paddleocr_engine import PaddleOCREngine
@@ -35,7 +34,6 @@ class BenchmarkRunner:
             "tesseract":  lambda: TesseractEngine(self.tesseract_path),
             "easyocr":    lambda: EasyOCREngine([get_lang(self.lang, "easyocr")]),
             "trocr":      lambda: TrOCREngine(),
-            "donut":      lambda: DonutEngine(),
             "doctr":      lambda: DocTREngine(),
             "nougat":     lambda: NougatEngine(),
             "paddleocr":  lambda: PaddleOCREngine(lang=get_lang(self.lang, "paddleocr")),

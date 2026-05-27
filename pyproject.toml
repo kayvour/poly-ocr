@@ -7,7 +7,28 @@ name = "polyocr-bench"
 version = "0.1.0"
 description = "Multilingual OCR benchmarking framework"
 requires-python = ">=3.9"
-dependencies = [...]  # pull from requirements.txt
+dependencies = [
+    "numpy",
+    "pandas",
+    "Pillow",
+    "opencv-python",
+    "matplotlib",
+    "psutil",
+    "pytesseract",
+    "easyocr",
+    "torch",
+    "torchvision",
+    "transformers",
+    "python-doctr[torch]",
+    "python-Levenshtein",
+    "nltk",
+    "rouge-score",
+    "albumentations",
+]
 
 [project.scripts]
-polyocr = "cli:main"   # makes `polyocr --dataset ...` work after pip install
+polyocr = "cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
